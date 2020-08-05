@@ -10,12 +10,12 @@ To solve the problem, we take advantage of the **micropython REPL** running on t
 ## Directory Structure
 This repository has 2 directories:
     - **spike**: contains the projects that are run in the Spike Prime app. These files end with `.llsp`
-    - **lib**: contains the class and mission program files that will be loaded on to the Spike Prime hub. These files end with `.py` 
+    - **techtigers**: contains the class and mission program files that will be loaded on to the Spike Prime hub. These files end with `.py` 
 
 
 # Deploying *spike* files to the hub
 Create the file on the Spike App, connect to Spike hub to the App, and run the file that needs to be deployed.
-# Deploying *lib* files to the hub
+# Deploying *techtigers* files to the hub
 ## Prerequisites
 Download and install ampy
 Install [ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy)
