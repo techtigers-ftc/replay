@@ -12,6 +12,7 @@ class Robot:
         self.drive_motors = MotorPair('C', 'E')
         self.left_color_sensor = ColorSensor('F')
         self.right_color_sensor = ColorSensor('D')
+        self.gyro = hub.motion_sensor
 
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
         """This function implements the ability to go at a certain speed 
