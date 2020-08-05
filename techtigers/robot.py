@@ -1,6 +1,8 @@
-from spike import MotorPair, ColorSensor
+from spike import MotorPair, ColorSensor, StatusLight, MotionSensor, Speaker, PrimeHub
+from spike.control import wait_for_seconds
 from .colors import Color
 from .line_sensor import LineSensor
+hub = PrimeHub()
 
 class Robot:
     """ Represents the robot for the the 2021 fll season
@@ -12,6 +14,8 @@ class Robot:
         self.drive_motors = MotorPair('C', 'E')
         self.left_color_sensor = ColorSensor('F')
         self.right_color_sensor = ColorSensor('D')
+        self.hub = PrimeHub()
+        self.gyro = 
 
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
         """This functuion implements the ability to go at a certain speed 
@@ -28,7 +32,7 @@ class Robot:
 
         self.drive_motors.start(0,speed)
         color_sensor.wait_until_color(color)
-        motor_pair.stop()
+        self.drive_motors.stop()
 
     def drift_check(self):
         hub.speaker.beep(60, 0.2)
@@ -45,5 +49,21 @@ class Robot:
             drift = True
  
         return drift 
+    def gyro_turn(self, pid, target_angle, tolerance = 1):
+        """Turns the robot to a specific angle.
+        :param pid: Uses Pid instance with parameters set beforehand
+        :type pid: Number
+        :param target_angle: Angle the robot turns to
+        :type target_angle: Number
+        :param tolerance: How close to the target angle you want the robot to be
+        :type tolerance: Number
+        """
+
+        # Inititialize values
+        pid.reset()
+        
+        target_angle = target_angle % 360
+        error = tolerance + 1
+        min_speed = 50
 
 
