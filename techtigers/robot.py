@@ -14,7 +14,7 @@ class Robot:
         self.right_color_sensor = ColorSensor('D')
 
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
-        """This functuion implements the ability to go at a certain speed 
+        """This function implements the ability to go at a certain speed 
         and then stop on a certain color
 
         Args:
@@ -31,6 +31,12 @@ class Robot:
         motor_pair.stop()
 
     def drift_check(self):
+        """ This function checks the gyro value, waits 2 seconds, and checks the value 
+            again to see if the gyro is drifting.
+
+        Return:
+            drift (boolean): Checks drift
+        """
         hub.speaker.beep(60, 0.2)
         wait_for_seconds(0.1)
         hub.speaker.beep(60, 0.2)
