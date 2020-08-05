@@ -1,8 +1,8 @@
-from spike import MotorPair, ColorSensor, StatusLight, MotionSensor, Speaker, PrimeHub
+from spike import MotorPair, ColorSensor, StatusLight, MotionSensor, Speaker, PrimeHub, Motor
 from spike.control import wait_for_seconds
 from .colors import Color
 from .line_sensor import LineSensor
-hub = PrimeHub()
+
 
 class Robot:
     """ Represents the robot for the the 2021 fll season
@@ -15,10 +15,16 @@ class Robot:
         self.left_color_sensor = ColorSensor('F')
         self.right_color_sensor = ColorSensor('D')
         self.hub = PrimeHub()
-        self.gyro = 
+        self.gyro = self.hub.motion_sensor
+        self.left_motor = Motor("C")
+        self.right_motor = Motor("E")
+        self.LEFT_MOTOR_CONSTANT = -1
+        self.RIGHT_MOTOR_CONSTANT = 1
+
+        
 
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
-        """This functuion implements the ability to go at a certain speed 
+        """This function implements the ability to go at a certain speed 
         and then stop on a certain color
 
         Args:
@@ -35,17 +41,23 @@ class Robot:
         self.drive_motors.stop()
 
     def drift_check(self):
-        hub.speaker.beep(60, 0.2)
+        """ This function checks the gyro value, waits 2 seconds, and checks the value 
+            again to see if the gyro is drifting.
+
+        Return:
+            drift (boolean): Checks drift
+        """
+        self.hub.speaker.beep(60, 0.2)
         wait_for_seconds(0.1)
-        hub.speaker.beep(60, 0.2)
+        self.hub.speaker.beep(60, 0.2)
         drift = False
         start_gyro = self.gyro.get_yaw_angle()
-        hub.status_light.on('blue')
+        self.hub.status_light.on('blue')
 
         wait_for_seconds(2)
         
         if start_gyro != self.gyro.get_yaw_angle():
-            hub.status_light.on('red')
+            self.hub.status_light.on('red')
             drift = True
  
         return drift 
@@ -58,12 +70,28 @@ class Robot:
         :param tolerance: How close to the target angle you want the robot to be
         :type tolerance: Number
         """
-
-        # Inititialize values
         pid.reset()
-        
-        target_angle = target_angle % 360
-        error = tolerance + 1
-        min_speed = 50
+    
+        while True:
+            actual_angle = gyro.get_yaw_angle()
+            error = target_angle - actual_angle
+
+            steering = pid.compute_steering(error)
+            print(target_angle, actual_angle, error, steering)
+
+            if steering != 0:
+                abs_steering = abs(steering)
+                sign = steering/abs_steering
+                speed = min(10, abs_steering) * sign
+                # Pay attention!
+            
+            self.left_motor.start(int(speed * self.LEFT_MOTOR_CONSTANT))
+            self.right_motor.start(int(speed * self.RIGHT_MOTOR_CONSTANT * -1))
+
+            if abs(error) < tolerance:
+                break
+
+        self.left_motor.stop()
+        self.right_motor.stop()
 
 
