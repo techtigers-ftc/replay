@@ -26,9 +26,9 @@ class Robot:
         and then stop on a certain color
 
         Args:
-            speed (number): The speed at which the robot goes
-            sensor (LineSensor): Identifies the sensor to stop on a color
-            color (Color, optional): Color that the robot will stop on. Defaults to Color.WHITE.
+            speed(number): The speed at which the robot goes
+            sensor(LineSensor): Identifies the sensor to stop on a color
+            color(Color, optional): Color that the robot will stop on. Defaults to Color.WHITE.
         """
         color_sensor =  self.left_color_sensor
         if sensor == LineSensor.RIGHT:
@@ -43,7 +43,7 @@ class Robot:
             again to see if the gyro is drifting.
 
         Return:
-            drift (boolean): Checks drift
+            drift(boolean): Checks drift
         """
         drift = False
         start_gyro = self.gyro.get_yaw_angle()
@@ -64,6 +64,9 @@ class Robot:
         return drift 
     
     def drift_check(self):
+        """ This function takes the output of drift_check_base and alerts the user of no 
+            gyro drift by beeping and changing color
+        """
         while self.drift_check_base():
             wait_for_seconds(1)
         self.hub.speaker.beep(50, 1)
@@ -74,12 +77,11 @@ class Robot:
 
     def gyro_turn(self, pid, target_angle, tolerance = 1):
         """Turns the robot to a specific angle.
-        :param pid: Uses Pid instance with parameters set beforehand
-        :type pid: Number
-        :param target_angle: Angle the robot turns to
-        :type target_angle: Number
-        :param tolerance: How close to the target angle you want the robot to be
-        :type tolerance: Number
+
+        Args:
+            pid(class): Uses Pid instance with parameters set beforehand
+            target_angle(number): Angle the robot turns to
+            tolerance(number): How close to the target angle you want the robot to be
         """
         pid.reset()
     
@@ -104,8 +106,15 @@ class Robot:
         self.right_motor.stop()
     
     def reset_gyro(self):
+        """ This function resets the gyro value to 0
+        """
         hub = PrimeHub()
         hub.motion_sensor.reset_yaw_angle()
     
     def dead_reckon_drive(self, speed, time):
+        """ This function drives the motors using tank steering
+        
+        Args:
+            speed(number): The speed the motors drive at
+            time(number): The amount of seconds the motors drive for
         self.drive_motors.move_tank(time,"seconds",speed,speed)
