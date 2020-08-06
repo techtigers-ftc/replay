@@ -21,8 +21,6 @@ class Robot:
         self.LEFT_MOTOR_CONSTANT = -1
         self.RIGHT_MOTOR_CONSTANT = 1
 
-        
-
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
         """This function implements the ability to go at a certain speed 
         and then stop on a certain color
@@ -53,14 +51,13 @@ class Robot:
         drift = False
         start_gyro = self.gyro.get_yaw_angle()
         self.hub.status_light.on('blue')
-
         wait_for_seconds(2)
-        
         if start_gyro != self.gyro.get_yaw_angle():
             self.hub.status_light.on('red')
             drift = True
  
         return drift 
+
     def gyro_turn(self, pid, target_angle, tolerance = 1):
         """Turns the robot to a specific angle.
         :param pid: Uses Pid instance with parameters set beforehand
@@ -73,7 +70,7 @@ class Robot:
         pid.reset()
     
         while True:
-            actual_angle = gyro.get_yaw_angle()
+            actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
 
             steering = pid.compute_steering(error)
