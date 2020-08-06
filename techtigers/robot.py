@@ -67,6 +67,8 @@ class Robot:
         while self.drift_check_base():
             wait_for_seconds(1)
         self.hub.speaker.beep(50, 1)
+        self.hub.status_light.on('green')
+
         
 
 
@@ -91,7 +93,6 @@ class Robot:
                 abs_steering = abs(steering)
                 sign = steering/abs_steering
                 speed = min(10, abs_steering) * sign
-                # Pay attention!
             
             self.left_motor.start(int(speed * self.LEFT_MOTOR_CONSTANT))
             self.right_motor.start(int(speed * self.RIGHT_MOTOR_CONSTANT * -1))
@@ -101,5 +102,10 @@ class Robot:
 
         self.left_motor.stop()
         self.right_motor.stop()
-
-
+    
+    def reset_gyro(self):
+        hub = PrimeHub()
+        hub.motion_sensor.reset_yaw_angle()
+    
+    def dead_reckon_drive(self, speed, time):
+        self.drive_motors.move_tank(time,"seconds",speed,speed)
