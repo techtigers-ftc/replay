@@ -38,25 +38,37 @@ class Robot:
         color_sensor.wait_until_color(color)
         self.drive_motors.stop()
 
-    def drift_check(self):
+    def drift_check_base(self):
         """ This function checks the gyro value, waits 2 seconds, and checks the value 
             again to see if the gyro is drifting.
 
         Return:
             drift (boolean): Checks drift
         """
-        self.hub.speaker.beep(60, 0.2)
-        wait_for_seconds(0.1)
-        self.hub.speaker.beep(60, 0.2)
         drift = False
         start_gyro = self.gyro.get_yaw_angle()
         self.hub.status_light.on('blue')
         wait_for_seconds(2)
         if start_gyro != self.gyro.get_yaw_angle():
+            self.hub.speaker.beep(80, .2)
+            wait_for_seconds(0.1)
+            self.hub.speaker.beep(82, .2)
+            wait_for_seconds(0.1)
+            self.hub.speaker.beep(84, .2)
+            wait_for_seconds(0.1)
+            self.hub.speaker.beep(85, .2)
+            
             self.hub.status_light.on('red')
             drift = True
  
         return drift 
+    
+    def drift_check(self):
+        while self.drift_check_base():
+            wait_for_seconds(1)
+        self.hub.speaker.beep(50, 1)
+        
+
 
     def gyro_turn(self, pid, target_angle, tolerance = 1):
         """Turns the robot to a specific angle.
@@ -74,7 +86,6 @@ class Robot:
             error = target_angle - actual_angle
 
             steering = pid.compute_steering(error)
-            print(target_angle, actual_angle, error, steering)
 
             if steering != 0:
                 abs_steering = abs(steering)
