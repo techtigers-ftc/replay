@@ -2,7 +2,7 @@ from spike import MotorPair, ColorSensor, StatusLight, MotionSensor, Speaker, Pr
 from spike.control import wait_for_seconds
 from .colors import Color
 from .line_sensor import LineSensor
-
+from .line_edge import LineEdge
 
 class Robot:
     """ Represents the robot for the the 2021 fll season
