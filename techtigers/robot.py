@@ -11,9 +11,9 @@ class Robot:
     def __init__(self):
         """ Initializes the robot's motors and sensors
         """
-        self.drive_motors = MotorPair('C', 'E')
+        self.drive_motors = MotorPair('D', 'E')
         self.left_color = ColorSensor('F')
-        self.right_color = ColorSensor('D')
+        self.right_color = ColorSensor('C')
         self.hub = PrimeHub()
         self.gyro = self.hub.motion_sensor
         self.left_motor = Motor("C")
@@ -140,7 +140,7 @@ class Robot:
 
         while pid.clock.now() < duration:
             # Selecting which sensor to use using an Enum
-           if which_sensor == LineSensor.RIGHT:
+            if which_sensor == LineSensor.RIGHT:
                 error = 50 - self.right_color.get_reflected_light()
             if which_sensor == LineSensor.LEFT:
                 error = 50 - self.left_color.get_reflected_light()
