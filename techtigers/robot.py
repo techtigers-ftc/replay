@@ -16,7 +16,7 @@ class Robot:
         self.right_color = ColorSensor('C')
         self.hub = PrimeHub()
         self.gyro = self.hub.motion_sensor
-        self.left_motor = Motor("C")
+        self.left_motor = Motor("D")
         self.right_motor = Motor("E")
         self.LEFT_MOTOR_CONSTANT = -1
         self.RIGHT_MOTOR_CONSTANT = 1
