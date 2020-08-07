@@ -158,4 +158,23 @@ class Robot:
             self.drive_motors.start(steering, speed)
 
         self.drive_motors.stop()
- 
+    
+    def align(self, speed):
+        """Aligns using color sensors on black line
+        
+        :param speed: The speed the robot moves at
+        :type speed: Number
+        """
+        self.left_motor.start(0, speed)
+        self.right_motor.start(0, speed)
+        while True:
+            left = False
+            right = False
+            if self.left_color.get_reflected_light() <= 10:
+                self.left_motor.stop()
+                left = True
+            if self.right_color.reflection() <= 10:
+                self.right_motor.stop()
+                right = True
+            if left and right == True:
+                break
