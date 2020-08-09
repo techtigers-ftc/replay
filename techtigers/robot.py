@@ -96,8 +96,8 @@ class Robot:
                 sign = steering/abs_steering
                 speed = min(10, abs_steering) * sign
             
-            self.left_motor.start(int(speed * self.LEFT_MOTOR_CONSTANT))
-            self.right_motor.start(int(speed * self.RIGHT_MOTOR_CONSTANT * -1))
+            self.left_motor.start(speed * self.LEFT_MOTOR_CONSTANT)
+            self.right_motor.start(speed * self.RIGHT_MOTOR_CONSTANT * -1)
 
             if abs(error) < tolerance:
                 break
@@ -165,16 +165,17 @@ class Robot:
         :param speed: The speed the robot moves at
         :type speed: Number
         """
-        self.left_motor.start(0, speed)
-        self.right_motor.start(0, speed)
+        self.left_motor.start(-speed)
+        self.right_motor.start(speed)
         while True:
             left = False
             right = False
             if self.left_color.get_reflected_light() <= 10:
                 self.left_motor.stop()
                 left = True
-            if self.right_color.reflection() <= 10:
+            if self.right_color.get_reflected_light() <= 10:
                 self.right_motor.stop()
                 right = True
             if left and right == True:
                 break
+            print(self.left_color.get_reflected_light(), self.right_color.get_reflected_light())
