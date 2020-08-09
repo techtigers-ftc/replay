@@ -179,3 +179,25 @@ class Robot:
             if left and right == True:
                 break
             print(self.left_color.get_reflected_light(), self.right_color.get_reflected_light())
+
+    def drive(self, pid, speed, target_angle, duration):
+       # Inititialize values
+        pid.reset()
+        target_angle = target_angle % 360
+
+        while pid.clock.now() < duration:
+            # Calculate error
+            actual_angle = self.gyro.get_yaw_angle()
+            error = target_angle - actual_angle
+            error = error - (360 * (error / 180))
+
+            # Calculate steering output
+            steering = pid.compute_steering(error)
+
+            # Drive the motors
+            self.move_tank(speed, steering)
+            self.show_image(GHOST)
+
+        # Stop motors
+        self.drive_base.stop(Stop.BRAKE)
+
