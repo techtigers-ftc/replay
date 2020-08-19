@@ -1,6 +1,7 @@
 from spike import MotorPair, ColorSensor, StatusLight, MotionSensor, Speaker, PrimeHub, Motor
 from spike.control import wait_for_seconds
 from .colors import Color
+
 from .line_sensor import LineSensor
 from .line_edge import LineEdge
 
@@ -178,26 +179,24 @@ class Robot:
                 right = True
             if left and right == True:
                 break
+
     def drive(self, pid, speed, target_angle, duration):
        # Inititialize values
         pid.reset()
-        target_angle = target_angle % 360
 
         while pid.clock.now() < duration:
             # Calculate error
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
-            error = error - (360 * int(error / 180))
 
             # Calculate steering output
             steering = pid.compute_steering(error)
 
             # Drive the motors
-            self.move_tank(speed, steering)
-            self.show_image(GHOST)
+            self.drive_motors.start(steering, speed)
 
         # Stop motors
-        self.drive_base.stop(Stop.BRAKE)
+        self.drive_motors.stop()
 
         
 
