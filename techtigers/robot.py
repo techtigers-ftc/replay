@@ -1,7 +1,7 @@
 from spike import MotorPair, ColorSensor, StatusLight, MotionSensor, Speaker, PrimeHub, Motor
 from spike.control import wait_for_seconds
 from .colors import Color
-
+from .pid import Pid
 from .line_sensor import LineSensor
 from .line_edge import LineEdge
 
@@ -12,24 +12,38 @@ class Robot:
     def __init__(self):
         """ Initializes the robot's motors and sensors
         """
-        self.drive_motors = MotorPair('D', 'E')
-        self.left_color = ColorSensor('F')
-        self.right_color = ColorSensor('C')
+        self.drive_motors = MotorPair('B', 'D')
+        self.left_motor = Motor("B")
+        self.right_motor = Motor("D")
+        self.left_color = ColorSensor('A')
+        self.right_color = ColorSensor('F')
+        self.left_attachment = Motor('C')
+        self.right_attachment = Motor('E')
         self.hub = PrimeHub()
         self.gyro = self.hub.motion_sensor
-        self.left_motor = Motor("D")
-        self.right_motor = Motor("E")
         self.LEFT_MOTOR_CONSTANT = -1
         self.RIGHT_MOTOR_CONSTANT = 1
+
+    def _run_motor(motor, speed, duration):
+        """ Hidden function that is used to move single motors
+
+        :param speed: The speed of the motor
+        :type speed: Number
+        :param duration: The Amount of time the robot runs for
+        :type duration: Number
+        """
+        motor.run_for_seconds(duration, speed)
 
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
         """This function implements the ability to go at a certain speed 
         and then stop on a certain color
 
-        Args:
-            speed(number): The speed at which the robot goes
-            sensor(LineSensor): Identifies the sensor to stop on a color
-            color(Color, optional): Color that the robot will stop on. Defaults to Color.WHITE.
+            :param speed: The speed at which the robot goes
+            :type speed: Number
+            :param sensor: Identifies the sensor to stop on a color
+            :type sensor: Enumeration
+            :param color: Color that the robot will stop on. Defaults to Color.WHITE.
+            :type color: Enumeration
         """
         color_sensor =  self.left_color
         if sensor == LineSensor.RIGHT:
@@ -43,8 +57,8 @@ class Robot:
         """ This function checks the gyro value, waits 2 seconds, and checks the value 
             again to see if the gyro is drifting.
 
-        Return:
-            drift(boolean): Checks drift
+            :return drift: Checks drift
+            :type drift: Boolean
         """
         drift = False
         start_gyro = self.gyro.get_yaw_angle()
@@ -76,13 +90,15 @@ class Robot:
         
 
 
-    def gyro_turn(self, pid, target_angle, tolerance = 1):
+    def turn(self, pid, target_angle, tolerance = 1):
         """Turns the robot to a specific angle.
 
-        Args:
-            pid(class): Uses Pid instance with parameters set beforehand
-            target_angle(number): Angle the robot turns to
-            tolerance(number): How close to the target angle you want the robot to be
+            :param pid: Uses Pid instance with parameters set beforehand
+            :type pid: Class Object
+            :param target_angle: Angle the robot turns to
+            :type target_angle: Number
+            :param tolerance: How close to the target angle you want the robot to be
+            :type tolerence: Number
         """
         pid.reset()
     
@@ -109,15 +125,15 @@ class Robot:
     def reset_gyro(self):
         """ This function resets the gyro value to 0
         """
-        hub = PrimeHub()
-        hub.motion_sensor.reset_yaw_angle()
+        self.hub.motion_sensor.reset_yaw_angle()
     
     def dead_reckon_drive(self, speed, time):
         """ This function drives the motors using tank steering
         
-        Args:
-            speed(number): The speed the motors drive at
-            time(number): The amount of seconds the motors drive for
+            :param speed: The speed the motors drive at
+            :type speed: Number
+            :param time: The amount of seconds the motors drive for
+            :type time: Number
         """
         self.drive_motors.move_tank(time,"seconds",speed,speed)
 
@@ -189,7 +205,6 @@ class Robot:
             # Calculate error
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
-            error = error - (360 * (error / 180))
 
             # Calculate steering output
             steering = pid.compute_steering(error)
@@ -199,4 +214,44 @@ class Robot:
 
         # Stop motors
         self.drive_motors.stop()
+
+    def run_left_drive(self, speed, duration):
+        """Runs the left drive motor for desired speed and time
+
+        :param speed: The speed of the motor
+        :type speed: Number
+        :param duration: The Amount of time the robot runs for
+        :type duration: Number
+        """
+       Robot._run_motor(self.left_motor, speed, duration)
+
+    def run_right_drive(self, speed, duration):
+        """Runs the right drive motor for desired speed and time
+
+        :param speed: The speed of the motor
+        :type speed: Number
+        :param duration: The Amount of time the robot runs for
+        :type duration: Number
+        """
+       Robot._run_motor(self.right_motor, speed, duration)
+
+    def run_left_attachment(self, speed, duration):
+        """Runs the left attachment motor for desired speed and time
+
+        :param speed: The speed of the motor
+        :type speed: Number
+        :param duration: The Amount of time the robot runs for
+        :type duration: Number
+        """
+       Robot._run_motor(self.left_attachment, speed, duration)
+
+    def run_right_attachment(self, speed, duration):
+        """Runs the right attachment motor for desired speed and time
+
+        :param speed: The speed of the motor
+        :type speed: Number
+        :param duration: The Amount of time the robot runs for
+        :type duration: Number
+        """
+       Robot._run_motor(self.right_attachment, speed, duration)
 
