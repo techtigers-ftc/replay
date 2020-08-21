@@ -198,22 +198,32 @@ class Robot:
             print(self.left_color.get_reflected_light(), self.right_color.get_reflected_light())
 
     def drive(self, pid, speed, target_angle, duration):
-       # Inititialize values
+        """
+        Gyro drive allows the robot to accurately drive in any direction 
+
+        :param pid: Uses Pid instance with parameters set beforehand
+        :type pid: Instance of a Class
+        :param speed: The speed of the motor
+        :type speed: Number
+        :param target_angle: The orientation of the robot
+        :type target_angle: Number
+        :param duration: The Amount of time the robot runs for
+        :type duration: Number
+        """
+
         pid.reset()
 
+
         while pid.clock.now() < duration:
-            # Calculate error
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
 
-            # Calculate steering output
             steering = pid.compute_steering(error)
 
-            # Drive the motors
             self.drive_motors.start(steering, speed)
 
-        # Stop motors
         self.drive_motors.stop()
+    
 
     def run_left_drive(self, speed, duration):
         """Runs the left drive motor for desired speed and time
