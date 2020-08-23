@@ -4,6 +4,7 @@ from .colors import Color
 from .pid import Pid
 from .line_sensor import LineSensor
 from .line_edge import LineEdge
+from .logger import Logger
 
 class Robot:
     """ Represents the robot for the the 2021 fll season
@@ -23,6 +24,8 @@ class Robot:
         self.gyro = self.hub.motion_sensor
         self.LEFT_MOTOR_CONSTANT = -1
         self.RIGHT_MOTOR_CONSTANT = 1
+
+        self._logger = Logger()
 
     def _run_motor(motor, speed, duration):
         """ Hidden function that is used to move single motors
@@ -198,7 +201,9 @@ class Robot:
             print(self.left_color.get_reflected_light(), self.right_color.get_reflected_light())
 
     def drive(self, pid, speed, target_angle, duration):
-       # Inititialize values
+        self._logger.log_start_pid('drive', pid, speed, duration)
+
+        # Inititialize values
         pid.reset()
         target_angle = target_angle % 360
 
@@ -212,9 +217,12 @@ class Robot:
 
             # Drive the motors
             self.drive_motors.start(steering, speed)
+            self._logger.log_run_pid('drive', target_angle, actual_angle, steering)
 
         # Stop motors
         self.drive_motors.stop()
+        self._logger.stop_pid()
+        self._logger.write()
 
     def run_left_drive(self, speed, duration):
         """Runs the left drive motor for desired speed and time
@@ -224,7 +232,7 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-       Robot._run_motor(self.left_motor, speed, duration)
+        Robot._run_motor(self.left_motor, speed, duration)
 
     def run_right_drive(self, speed, duration):
         """Runs the right drive motor for desired speed and time
@@ -234,7 +242,7 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-       Robot._run_motor(self.right_motor, speed, duration)
+        Robot._run_motor(self.right_motor, speed, duration)
 
     def run_left_attachment(self, speed, duration):
         """Runs the left attachment motor for desired speed and time
@@ -244,7 +252,7 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-       Robot._run_motor(self.left_attachment, speed, duration)
+        Robot._run_motor(self.left_attachment, speed, duration)
 
     def run_right_attachment(self, speed, duration):
         """Runs the right attachment motor for desired speed and time
@@ -254,6 +262,6 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-       Robot._run_motor(self.right_attachment, speed, duration)
+        Robot._run_motor(self.right_attachment, speed, duration)
 
 
