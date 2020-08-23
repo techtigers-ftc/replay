@@ -1,0 +1,4 @@
+#! /bin/bash
+
+ampy -p /dev/tty.usbmodem3664395831381 rmdir /techtigers
+ampy -p /dev/tty.usbmodem3664395831381 put ./techtigers/
