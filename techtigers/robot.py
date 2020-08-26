@@ -31,12 +31,8 @@ class Robot:
         """ Hidden function that is used to move single motors
 
         :param speed: The speed of the motor
-        :type speed: Number
-        :param duration: The Amount of time the robot runs for
-        :type duration: Number
-        """
-        motor.run_for_seconds(duration, speed)
-
+        :type speed: Number :param duration: The Amount of time the robot runs for :type duration: Number """ 
+        motor.run_for_seconds(duration, speed) 
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
         """This function implements the ability to go at a certain speed 
         and then stop on a certain color
@@ -213,9 +209,8 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-        self._logger.log_start_pid('drive', pid, speed, duration)
+        self._logger.log_start_pid(pid, speed, duration)
         pid.reset()
-
 
         while pid.clock.now() < duration:
             actual_angle = self.gyro.get_yaw_angle()
@@ -223,8 +218,8 @@ class Robot:
 
             steering = pid.compute_steering(error)
 
-            self.drive_motors.start(steering, speed)
-            self._logger.log_run_pid('drive', target_angle, actual_angle, steering)
+            self.drive_motors.start(-1 * steering, speed)
+            self._logger.log_run_pid(target_angle, actual_angle, steering)
 
         self.drive_motors.stop()
         self._logger.stop_pid()
