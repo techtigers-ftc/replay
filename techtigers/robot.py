@@ -22,7 +22,7 @@ class Robot:
         self.right_attachment = Motor('E')
         self.hub = PrimeHub()
         self.gyro = self.hub.motion_sensor
-        self.LEFT_MOTOR_CONSTANT = -1
+        self.LEFT_MOTOR_CONSTANT = 1
         self.RIGHT_MOTOR_CONSTANT = 1
 
         self._logger = Logger()
@@ -112,8 +112,8 @@ class Robot:
                 sign = steering/abs_steering
                 speed = min(10, abs_steering) * sign
             
-            self.left_motor.start(speed * self.LEFT_MOTOR_CONSTANT)
-            self.right_motor.start(speed * self.RIGHT_MOTOR_CONSTANT * -1)
+            self.left_motor.start(int(speed * self.LEFT_MOTOR_CONSTANT))
+            self.right_motor.start(int(speed * self.RIGHT_MOTOR_CONSTANT))
 
             if abs(error) < tolerance:
                 break
@@ -209,7 +209,7 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-        self._logger.log_start_pid(pid, speed, duration)
+        # self._logger.log_start_pid(pid, speed, duration)
         pid.reset()
 
         while pid.clock.now() < duration:
@@ -219,11 +219,11 @@ class Robot:
             steering = pid.compute_steering(error)
 
             self.drive_motors.start(-1 * steering, speed)
-            self._logger.log_run_pid(target_angle, actual_angle, steering)
+            # self._logger.log_run_pid(target_angle, actual_angle, steering)
 
         self.drive_motors.stop()
-        self._logger.stop_pid()
-        self._logger.write()
+        # self._logger.stop_pid()
+        # self._logger.write()
     
     def run_left_drive(self, speed, duration):
         """Runs the left drive motor for desired speed and time
@@ -265,3 +265,12 @@ class Robot:
         """
         Robot._run_motor(self.right_attachment, speed, duration)
 
+    def beep(note, time):
+        """Runs a beep on the spike prime for a certain pitch and time
+
+        :param note: The midi note number from 44 - 123
+        :type note: Number
+        :param time: The number of seconds the note plays for
+        :type time: Number
+        """
+        self.hub.speaker.beep(note, time)

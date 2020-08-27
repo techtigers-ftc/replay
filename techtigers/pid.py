@@ -52,4 +52,4 @@ class Pid:
         steering += self.total_error * self.ki/100
         steering = steering / 1.8
 
-        return int(steering)
+        return int(-steering)
