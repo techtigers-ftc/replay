@@ -265,7 +265,7 @@ class Robot:
         """
         Robot._run_motor(self.right_attachment, speed, duration)
 
-    def beep(note, time):
+    def beep(self, note, time):
         """Runs a beep on the spike prime for a certain pitch and time
 
         :param note: The midi note number from 44 - 123
