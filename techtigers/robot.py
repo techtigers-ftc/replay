@@ -5,6 +5,7 @@ from .pid import Pid
 from .line_sensor import LineSensor
 from .line_edge import LineEdge
 from .logger import Logger
+from .timer import Timer
 
 class Robot:
     """ Represents the robot for the the 2021 fll season
@@ -153,8 +154,9 @@ class Robot:
         
         # Inititialize values
         pid.reset()
+        clock = Timer()
 
-        while pid.clock.now() < duration:
+        while clock.duration() < duration:
             # Selecting which sensor to use using an Enum
             if which_sensor == LineSensor.RIGHT:
                 error = 50 - self.right_color.get_reflected_light()
@@ -211,8 +213,9 @@ class Robot:
         """
         # self._logger.log_start_pid(pid, speed, duration)
         pid.reset()
+        clock = Timer()
 
-        while pid.clock.now() < duration:
+        while clock.duration() < duration:
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
 
