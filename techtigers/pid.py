@@ -25,7 +25,6 @@ class Pid:
         self.last_error = 0
         self.total_error = 0
        
-
     def compute_steering(self, error):
         """Computes and returns the corrections.
 
@@ -34,11 +33,12 @@ class Pid:
         :return: Returns correction value
         :rtype: Number
         """
+        elapsed_time = self.clock.duration()
         error_change = 0
 
-        if self.clock.duration() > 0:
-            error_change = (error - self.last_error)/self.clock.duration()
-            self.total_error = self.last_error * self.clock.duration() + self.total_error
+        if elapsed_time > 0:
+            error_change = (error - self.last_error)/elapsed_time
+            self.total_error = self.last_error * elapsed_time + self.total_error
 
         self.last_error = error
 

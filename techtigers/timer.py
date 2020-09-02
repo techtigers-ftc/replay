@@ -17,4 +17,4 @@ class Timer:
         :return diff: The time elapsed since last reset
         :type diff: Number
         """
-        return utime.ticks_diff(utime.ticks_us, self.start)
+        return utime.ticks_diff(utime.ticks_us(), self.start)
