@@ -5,6 +5,7 @@ from .pid import Pid
 from .line_sensor import LineSensor
 from .line_edge import LineEdge
 from .logger import Logger
+from .timer import Timer
 
 class Robot:
     """ Represents the robot for the the 2021 fll season
@@ -153,8 +154,10 @@ class Robot:
         
         # Inititialize values
         pid.reset()
+        clock = Timer()
 
-        while pid.clock.now() < duration:
+        duration = duration * 1000000
+        while clock.duration() < duration:
             # Selecting which sensor to use using an Enum
             if which_sensor == LineSensor.RIGHT:
                 error = 50 - self.right_color.get_reflected_light()
@@ -209,21 +212,19 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-        # self._logger.log_start_pid(pid, speed, duration)
         pid.reset()
+        clock = Timer()
 
-        while pid.clock.now() < duration:
+        duration = duration * 1000000
+        while clock.duration() < duration:
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
 
             steering = pid.compute_steering(error)
 
             self.drive_motors.start(-1 * steering, speed)
-            # self._logger.log_run_pid(target_angle, actual_angle, steering)
 
         self.drive_motors.stop()
-        # self._logger.stop_pid()
-        # self._logger.write()
     
     def run_left_drive(self, speed, duration):
         """Runs the left drive motor for desired speed and time
