@@ -155,6 +155,7 @@ class Robot:
         # Inititialize values
         pid.reset()
         clock = Timer()
+        clock.reset()
 
         while clock.duration() < duration:
             # Selecting which sensor to use using an Enum
@@ -214,6 +215,7 @@ class Robot:
         # self._logger.log_start_pid(pid, speed, duration)
         pid.reset()
         clock = Timer()
+        clock.reset()
 
         while clock.duration() < duration:
             actual_angle = self.gyro.get_yaw_angle()
