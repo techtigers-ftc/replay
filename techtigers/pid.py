@@ -1,4 +1,4 @@
-from spike.control import Timer
+from .timer import Timer
 
 class Pid:
     def __init__(self, kp, ki, kd):
@@ -17,17 +17,14 @@ class Pid:
         self.kd = kd
         self.last_error = 0
         self.total_error = 0
-        self.last_time = 0
     
     def reset(self):
         """Reset parameters before start of PID loop
         """
         self.clock.reset()
-        self.last_time = self.clock.now()
         self.last_error = 0
         self.total_error = 0
        
-
     def compute_steering(self, error):
         """Computes and returns the corrections.
 
@@ -36,9 +33,7 @@ class Pid:
         :return: Returns correction value
         :rtype: Number
         """
-        current_time = self.clock.now()
-        elapsed_time = current_time - self.last_time
-        self.last_time = current_time
+        elapsed_time = self.clock.duration()
         error_change = 0
 
         if elapsed_time > 0:
