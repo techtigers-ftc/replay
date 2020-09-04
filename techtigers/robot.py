@@ -165,7 +165,7 @@ class Robot:
                 error = 50 - self.left_color.get_reflected_light()
 
             # Selecting which edge of the line to use
-            if which_edge == LineEdge.RIGHT:
+            if which_edge == LineEdge.LEFT:
                 pass
             else:
                 error = error * -1

@@ -33,7 +33,7 @@ class Pid:
         :return: Returns correction value
         :rtype: Number
         """
-        elapsed_time = self.clock.duration()
+        elapsed_time = self.clock.duration() * 1000
         error_change = 0
 
         if elapsed_time > 0:
@@ -44,7 +44,7 @@ class Pid:
 
         steering = error * self.kp
         steering += error_change * self.kd
-        steering += self.total_error * self.ki/100
+        steering += self.total_error * self.ki
         steering = steering / 1.8
 
         return int(-steering)
