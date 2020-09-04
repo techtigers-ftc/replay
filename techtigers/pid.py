@@ -6,7 +6,7 @@ class Pid:
 
         :param kp: Proportional multiplier for the error
         :type kp: Number
-        :param ki: Multiplier for the intergral of the error 
+        :param ki: Multiplier for the intergral of the error
         :type ki: Number
         :param kd: Multiplier for the derivative of the error
         :type kd: Number
@@ -17,14 +17,14 @@ class Pid:
         self.kd = kd
         self.last_error = 0
         self.total_error = 0
-    
+
     def reset(self):
         """Reset parameters before start of PID loop
         """
         self.clock.reset()
         self.last_error = 0
         self.total_error = 0
-       
+
     def compute_steering(self, error):
         """Computes and returns the corrections.
 

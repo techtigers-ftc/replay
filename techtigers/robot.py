@@ -32,10 +32,10 @@ class Robot:
         """ Hidden function that is used to move single motors
 
         :param speed: The speed of the motor
-        :type speed: Number :param duration: The Amount of time the robot runs for :type duration: Number """ 
-        motor.run_for_seconds(duration, speed) 
+        :type speed: Number :param duration: The Amount of time the robot runs for :type duration: Number """
+        motor.run_for_seconds(duration, speed)
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
-        """This function implements the ability to go at a certain speed 
+        """This function implements the ability to go at a certain speed
         and then stop on a certain color
 
             :param speed: The speed at which the robot goes
@@ -54,7 +54,7 @@ class Robot:
         self.drive_motors.stop()
 
     def drift_check_base(self):
-        """ This function checks the gyro value, waits 2 seconds, and checks the value 
+        """ This function checks the gyro value, waits 2 seconds, and checks the value
             again to see if the gyro is drifting.
 
             :return drift: Checks drift
@@ -72,14 +72,14 @@ class Robot:
             self.hub.speaker.beep(84, .2)
             wait_for_seconds(0.1)
             self.hub.speaker.beep(85, .2)
-            
+
             self.hub.status_light.on('red')
             drift = True
- 
-        return drift 
-    
+
+        return drift
+
     def drift_check(self):
-        """ This function takes the output of drift_check_base and alerts the user of no 
+        """ This function takes the output of drift_check_base and alerts the user of no
             gyro drift by beeping and changing color
         """
         while self.drift_check_base():
@@ -87,7 +87,7 @@ class Robot:
         self.hub.speaker.beep(50, 1)
         self.hub.status_light.on('green')
 
-        
+
 
 
     def turn(self, pid, target_angle, tolerance = 1):
@@ -101,7 +101,7 @@ class Robot:
             :type tolerence: Number
         """
         pid.reset()
-    
+
         while True:
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
@@ -112,7 +112,7 @@ class Robot:
                 abs_steering = abs(steering)
                 sign = steering/abs_steering
                 speed = min(10, abs_steering) * sign
-            
+
             self.left_motor.start(int(speed * self.LEFT_MOTOR_CONSTANT))
             self.right_motor.start(int(speed * self.RIGHT_MOTOR_CONSTANT))
 
@@ -121,15 +121,15 @@ class Robot:
 
         self.left_motor.stop()
         self.right_motor.stop()
-    
+
     def reset_gyro(self):
         """ This function resets the gyro value to 0
         """
         self.hub.motion_sensor.reset_yaw_angle()
-    
+
     def dead_reckon_drive(self, speed, time):
         """ This function drives the motors using tank steering
-        
+
             :param speed: The speed the motors drive at
             :type speed: Number
             :param time: The amount of seconds the motors drive for
@@ -151,7 +151,7 @@ class Robot:
         :param which_edge: Which side the white is on relative to the robot
         :type which_edge: LineEdge
         """
-        
+
         # Inititialize values
         pid.reset()
         clock = Timer()
@@ -177,10 +177,10 @@ class Robot:
             self.drive_motors.start(steering, speed)
 
         self.drive_motors.stop()
-    
+
     def align(self, speed):
         """Aligns using color sensors on black line
-        
+
         :param speed: The speed the robot moves at
         :type speed: Number
         """
@@ -201,7 +201,7 @@ class Robot:
 
     def drive(self, pid, speed, target_angle, duration):
         """
-        Gyro drive allows the robot to accurately drive in any direction 
+        Gyro drive allows the robot to accurately drive in any direction
 
         :param pid: Uses Pid instance with parameters set beforehand
         :type pid: Instance of a Class
@@ -225,7 +225,7 @@ class Robot:
             self.drive_motors.start(-1 * steering, speed)
 
         self.drive_motors.stop()
-    
+
     def run_left_drive(self, speed, duration):
         """Runs the left drive motor for desired speed and time
 
