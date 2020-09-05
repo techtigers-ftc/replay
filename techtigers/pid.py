@@ -13,7 +13,7 @@ class Pid:
         """
         self.clock = Timer()
         self.kp = kp
-        self.ki = ki
+        self.ki = ki / 100000
         self.kd = kd
         self.last_error = 0
         self.total_error = 0
@@ -33,7 +33,7 @@ class Pid:
         :return: Returns correction value
         :rtype: Number
         """
-        elapsed_time = self.clock.duration() * 1000
+        elapsed_time = self.clock.duration() / 1000
         error_change = 0
 
         if elapsed_time > 0:
