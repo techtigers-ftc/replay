@@ -49,8 +49,10 @@ class Robot:
         if sensor == LineSensor.RIGHT:
             color_sensor = self.right_color
 
+        wait_for_seconds(0.01)
         self.drive_motors.start(0,speed)
-        color_sensor.wait_until_color(color)
+        while color_sensor.get_reflected_light() not in color:
+            pass
         self.drive_motors.stop()
 
     def drift_check_base(self):

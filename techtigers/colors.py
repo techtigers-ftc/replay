@@ -4,28 +4,32 @@ class Color:
 
     """White color
     """
-    WHITE = "white"
+    WHITE = range(90, 101)
 
     """Black color
     """
-    BLACK = "black"
+    BLACK = range(0, 41)
 
     """Violet color
     """
-    VIOLET = "violet"
+    VIOLET = range(0, 21)
 
     """Blue color
     """
-    BLUE = "blue"
+    BLUE = range(0, 21)
 
     """Cyan color
     """
-    CYAN = "cyan"
+    CYAN = range(0, 21)
 
     """Yellow color
     """
-    YELLOW= "yellow"
+    YELLOW= range(0, 21)
 
     """Red color
     """
-    RED= "red"
+    RED= range(0, 21)
+
+    """Green color
+    """
+    GREEN = range(80, 91)
