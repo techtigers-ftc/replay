@@ -179,6 +179,13 @@ class Robot:
             self.drive_motors.start(steering, speed)
 
         self.drive_motors.stop()
+        # --- TEMP CODE START ---
+        print("------")
+        print(pid._error_change_min, pid._error_change_max, pid._error_change_total)
+        print(pid._total_error_min, pid._total_error_max, pid._total_error_total)
+        print(pid._iterations)
+        print("------")
+        # --- TEMP CODE END ---
 
     def align(self, speed):
         """Aligns using color sensors on black line
