@@ -173,7 +173,8 @@ class Robot:
                 error = error * -1
 
             # Calculate steering
-            steering = pid.compute_steering(error)
+            steering = int((pid.compute_steering(error) + 50) / 4.4)
+            
 
             # Run motors
             self.drive_motors.start(steering, speed)

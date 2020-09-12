@@ -61,7 +61,7 @@ class Pid:
 
         if elapsed_time > 0:
             error_change = (error - self.last_error)/elapsed_time
-            self.total_error = self.last_error * elapsed_time + self.total_error
+            self.total_error = self.last_error * (elapsed_time / 1000000) + self.total_error
             # --- TEMP CODE START ---
             if error_change < self._error_change_min:
                 self._error_change_min = error_change
