@@ -1,0 +1,2 @@
+ampy -p /dev/tty.usbmodem3664395831381 put /Users/phinix/projects/replay/techtigers
+ampy -p /dev/tty.usbmodem3664395831381 reset
