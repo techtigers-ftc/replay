@@ -28,6 +28,13 @@ class Robot:
 
         self._logger = Logger()
 
+    def gyro_value(self):
+        value = self.gyro.get_yaw_angle
+        if value == 179:
+            value = 180
+        return value
+
+
     def _run_motor(motor, speed, duration):
         """ Hidden function that is used to move single motors
 
@@ -63,10 +70,10 @@ class Robot:
             :type drift: Boolean
         """
         drift = False
-        start_gyro = self.gyro.get_yaw_angle()
+        start_gyro = self.gyro_angle()
         self.hub.status_light.on('blue')
         wait_for_seconds(2)
-        if start_gyro != self.gyro.get_yaw_angle():
+        if start_gyro != self.gyro_angle():
             self.hub.speaker.beep(80, .2)
             wait_for_seconds(0.1)
             self.hub.speaker.beep(82, .2)
@@ -103,9 +110,8 @@ class Robot:
             :type tolerence: Number
         """
         pid.reset()
-
         while True:
-            actual_angle = self.gyro.get_yaw_angle()
+            actual_angle = self.gyro_angle()
             error = target_angle - actual_angle
 
             steering = pid.compute_steering(error)
@@ -227,7 +233,7 @@ class Robot:
 
         duration = duration * 1000000
         while clock.duration() < duration:
-            actual_angle = self.gyro.get_yaw_angle()
+            actual_angle = self.gyro_angle()
             error = target_angle - actual_angle
 
             steering = pid.compute_steering(error)
