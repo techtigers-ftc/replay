@@ -28,7 +28,7 @@ class Robot:
 
         self._logger = Logger()
 
-    def gyro_value(self):
+    def gyro_angle(self):
         value = self.gyro.get_yaw_angle
         if value == 179:
             value = 180
