@@ -28,7 +28,7 @@ class Robot:
 
         self._logger = Logger()
 
-    def gyro_value(self):
+    def get_gyro_value(self):
         value = self.gyro.get_yaw_angle
         if value == 179:
             value = 180
@@ -233,8 +233,7 @@ class Robot:
 
         duration = duration * 1000000
         while clock.duration() < duration:
-            actual_angle = self.gyro_angle()
-            error = target_angle - actual_angle
+            error = target_angle - self.get_gyro_value()
 
             steering = pid.compute_steering(error)
 
