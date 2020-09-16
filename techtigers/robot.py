@@ -102,7 +102,7 @@ class Robot:
     def turn(self, pid, target_angle, tolerance = 1):
         """Turns the robot to a specific angle.
 
-            :param pid: Uses Pid instance with parameters set beforehand
+            j:param pid: Uses Pid instance with parameters set beforehand
             :type pid: Class Object
             :param target_angle: Angle the robot turns to
             :type target_angle: Number
@@ -233,8 +233,7 @@ class Robot:
 
         duration = duration * 1000000
         while clock.duration() < duration:
-            actual_angle = self.gyro_angle()
-            error = target_angle - actual_angle
+            error = target_angle - self.get_gyro_value()
 
             steering = pid.compute_steering(error)
 
