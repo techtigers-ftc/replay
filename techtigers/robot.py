@@ -64,7 +64,7 @@ class Robot:
         start_gyro = self.gyro.get_yaw_angle()
         self.hub.status_light.on('blue')
         wait_for_seconds(2)
-        if start_gyro != self..get_yaw_angle():
+        if start_gyro != self.get_yaw_angle():
             self.hub.speaker.beep(80, .2)
             wait_for_seconds(0.1)
             self.hub.speaker.beep(82, .2)
@@ -102,9 +102,8 @@ class Robot:
         """
         pid.reset()
         while True:
-            actual_angle = self..get_yaw_angle()
+            actual_angle = self.get_yaw_angle()
             error = target_angle - actual_angle
-            if 
 
             steering = pid.compute_steering(error)
 
@@ -113,8 +112,8 @@ class Robot:
                 sign = steering/abs_steering
                 speed = min(10, abs_steering) * sign
 
-            self.left_motor.start(int(speed)
-            self.right_motor.start(int(speed)
+            self.left_motor.start(int(speed))
+            self.right_motor.start(int(speed))
 
             if abs(error) < tolerance:
                 break
@@ -225,7 +224,7 @@ class Robot:
 
         duration = duration * 1000000
         while clock.duration() < duration:
-            actual_angle = self..get_yaw_angle()
+            actual_angle = self.get_yaw_angle()
             error = target_angle - actual_angle
 
             steering = pid.compute_steering(error)
