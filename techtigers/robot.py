@@ -227,6 +227,7 @@ class Robot:
         while clock.duration() < duration:
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
+            error = error - 360*int(error/180)
 
             steering = pid.compute_steering(error)
 
