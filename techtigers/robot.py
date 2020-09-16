@@ -23,17 +23,8 @@ class Robot:
         self.right_attachment = Motor('E')
         self.hub = PrimeHub()
         self.gyro = self.hub.motion_sensor
-        self.LEFT_MOTOR_CONSTANT = 1
-        self.RIGHT_MOTOR_CONSTANT = 1
 
         self._logger = Logger()
-
-    def gyro_value(self):
-        value = self.gyro.get_yaw_angle
-        if value == 179:
-            value = 180
-        return value
-
 
     def _run_motor(motor, speed, duration):
         """ Hidden function that is used to move single motors
@@ -70,10 +61,10 @@ class Robot:
             :type drift: Boolean
         """
         drift = False
-        start_gyro = self.gyro_angle()
+        start_gyro = self.gyro.get_yaw_angle()
         self.hub.status_light.on('blue')
         wait_for_seconds(2)
-        if start_gyro != self.gyro_angle():
+        if start_gyro != self..get_yaw_angle():
             self.hub.speaker.beep(80, .2)
             wait_for_seconds(0.1)
             self.hub.speaker.beep(82, .2)
@@ -111,8 +102,9 @@ class Robot:
         """
         pid.reset()
         while True:
-            actual_angle = self.gyro_angle()
+            actual_angle = self..get_yaw_angle()
             error = target_angle - actual_angle
+            if 
 
             steering = pid.compute_steering(error)
 
@@ -121,8 +113,8 @@ class Robot:
                 sign = steering/abs_steering
                 speed = min(10, abs_steering) * sign
 
-            self.left_motor.start(int(speed * self.LEFT_MOTOR_CONSTANT))
-            self.right_motor.start(int(speed * self.RIGHT_MOTOR_CONSTANT))
+            self.left_motor.start(int(speed)
+            self.right_motor.start(int(speed)
 
             if abs(error) < tolerance:
                 break
@@ -233,7 +225,7 @@ class Robot:
 
         duration = duration * 1000000
         while clock.duration() < duration:
-            actual_angle = self.gyro_angle()
+            actual_angle = self..get_yaw_angle()
             error = target_angle - actual_angle
 
             steering = pid.compute_steering(error)
