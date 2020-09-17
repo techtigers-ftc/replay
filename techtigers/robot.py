@@ -23,8 +23,6 @@ class Robot:
         self.right_attachment = Motor('E')
         self.hub = PrimeHub()
         self.gyro = self.hub.motion_sensor
-        self.LEFT_MOTOR_CONSTANT = 1
-        self.RIGHT_MOTOR_CONSTANT = 1
 
         self._logger = Logger()
 
@@ -95,7 +93,7 @@ class Robot:
     def turn(self, pid, target_angle, tolerance = 1):
         """Turns the robot to a specific angle.
 
-            :param pid: Uses Pid instance with parameters set beforehand
+            j:param pid: Uses Pid instance with parameters set beforehand
             :type pid: Class Object
             :param target_angle: Angle the robot turns to
             :type target_angle: Number
@@ -103,10 +101,10 @@ class Robot:
             :type tolerence: Number
         """
         pid.reset()
-
         while True:
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
+            error = error -360*int(error/180)
 
             steering = pid.compute_steering(error)
 
@@ -115,8 +113,8 @@ class Robot:
                 sign = steering/abs_steering
                 speed = min(10, abs_steering) * sign
 
-            self.left_motor.start(int(speed * self.LEFT_MOTOR_CONSTANT))
-            self.right_motor.start(int(speed * self.RIGHT_MOTOR_CONSTANT))
+            self.left_motor.start(int(speed))
+            self.right_motor.start(int(speed))
 
             if abs(error) < tolerance:
                 break
@@ -173,12 +171,20 @@ class Robot:
                 error = error * -1
 
             # Calculate steering
-            steering = pid.compute_steering(error)
+            steering = int((pid.compute_steering(error) + 50) / 3.4)
+            
 
             # Run motors
             self.drive_motors.start(steering, speed)
 
         self.drive_motors.stop()
+        # --- TEMP CODE START ---
+        print("------")
+        print(pid._error_change_min, pid._error_change_max, pid._error_change_total)
+        print(pid._total_error_min, pid._total_error_max, pid._total_error_total)
+        print(pid._iterations)
+        print("------")
+        # --- TEMP CODE END ---
 
     def align(self, speed):
         """Aligns using color sensors on black line
@@ -221,6 +227,7 @@ class Robot:
         while clock.duration() < duration:
             actual_angle = self.gyro.get_yaw_angle()
             error = target_angle - actual_angle
+            error = error - 360*int(error/180)
 
             steering = pid.compute_steering(error)
 
