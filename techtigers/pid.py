@@ -80,15 +80,8 @@ class Pid:
 
         self.last_error = error
 
-<<<<<<< HEAD
-        steering = max(min(error * self.kp, 100), -100)
-        steering += max(min(error_change * self.kd, 100), -100)
-        steering += max(min(self.total_error * self.ki, 100), -100)
-        steering = max(min(steering / 1.8, 100), -100)
-=======
         steering = error * self.kp
         steering += error_change * self.kd
         steering += self.total_error * self.ki
->>>>>>> 27b84c14587087e598178ce8b30dbfb3b3c663d2
 
         return int(-steering)
