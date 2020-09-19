@@ -49,7 +49,10 @@ class Robot:
 
         wait_for_seconds(0.01)
         self.drive_motors.start(0,speed)
-        while color_sensor.get_reflected_light() not in color:
+        wait = True
+        while wait:
+            sensor_value = color_sensor.get_reflected_light() 
+            wait = sensor_value < color[0] or sensor_value >= color[1]
             pass
         self.drive_motors.stop()
 
