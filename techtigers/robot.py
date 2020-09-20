@@ -200,10 +200,10 @@ class Robot:
         while True:
             left = False
             right = False
-            if self.left_color.get_reflected_light() <= 10:
+            if self.left_color.get_reflected_light() <= 40:
                 self.left_motor.stop()
                 left = True
-            if self.right_color.get_reflected_light() <= 10:
+            if self.right_color.get_reflected_light() <= 40:
                 self.right_motor.stop()
                 right = True
             if left and right == True:
