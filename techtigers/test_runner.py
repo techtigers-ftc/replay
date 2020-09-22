@@ -10,6 +10,7 @@ class TestRunner:
         self.timer = Timer()
         self.test_cases = test_cases
         self.do_test = do_test
+        self.arr = []
 
     def run_test(self):
         for test_case in self.test_cases:
@@ -39,6 +40,14 @@ class TestRunner:
             print("Test completed. Result: {}".format(test_case["result"]))
             wait_for_seconds(2)
 
-        def print_results(self):
-            for test_case in self.test_cases:
-                print(test_case)
+    def print_results(self):
+        lines = []
+        for item in self.test_cases:
+            line = []
+            for key in item:
+                line.append(str(item[key]))
+            lines.append(','.join(line))
+
+        raw_results ="\\n".join(lines)
+        print("python -c 'print(\"{}\")'".format(raw_results))
+
