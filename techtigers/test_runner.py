@@ -11,6 +11,7 @@ class TestRunner:
         self.test_cases = test_cases
         self.do_test = do_test
         self.arr = []
+        self.primehub = PrimeHub()
 
     def run_test(self):
         for test_case in self.test_cases:
@@ -29,7 +30,7 @@ class TestRunner:
             self.hub.light_matrix.show_image("XMAS")
             print(test_case["expected_result"])
 
-            test_case["result"] = self.do_test(test_case)
+            test_case["result"] = self.do_test(self.robot, test_case, self.primehub)
 
             if test_case["result"] == True:
                 self.hub.light_matrix.show_image("YES")
