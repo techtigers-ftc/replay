@@ -208,7 +208,7 @@ class Robot:
                 right = True
             if left and right == True:
                 break
-            print(self.left_color.get_reflected_light(), self.right_color.get_reflected_light())
+            
 
     def drive(self, pid, speed, target_angle, duration):
         """
