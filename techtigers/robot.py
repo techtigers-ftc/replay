@@ -116,8 +116,8 @@ class Robot:
                 sign = steering/abs_steering
                 speed = min(10, abs_steering) * sign
 
-            self.left_motor.start(int(speed))
-            self.right_motor.start(int(speed))
+                self.left_motor.start(int(speed))
+                self.right_motor.start(int(speed))
 
             if abs(error) < tolerance:
                 break
