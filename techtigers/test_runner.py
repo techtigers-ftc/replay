@@ -4,17 +4,20 @@ from .timer import Timer
 from .robot import Robot
 
 class TestRunner:
-    def __init__(self, test_cases, do_test):
+    def __init__(self, test_cases, do_test, setup = None):
         self.robot = Robot()
         self.hub = PrimeHub()
         self.timer = Timer()
         self.test_cases = test_cases
         self.do_test = do_test
         self.arr = []
-
+        self.setup = setup
+    
     def run_test(self):
         for test_case in self.test_cases:
             # Show pattern to indicate that we are waiting for user input
+            if self.setup != None:
+                self.setup(self.robot, test_case)
             self.hub.light_matrix.show_image('DIAMOND')
             self.hub.status_light.on("azure")
             print("___________________")
@@ -29,7 +32,7 @@ class TestRunner:
             self.hub.light_matrix.show_image("XMAS")
             print(test_case["expected_result"])
 
-            test_case["result"] = self.do_test(test_case)
+            test_case["result"] = self.do_test(self.robot, test_case)
 
             if test_case["result"] == True:
                 self.hub.light_matrix.show_image("YES")
@@ -38,7 +41,7 @@ class TestRunner:
 
             print("__________________")
             print("Test completed. Result: {}".format(test_case["result"]))
-            wait_for_seconds(2)
+            self.robot.drift_check()
 
     def print_results(self):
         lines = []
