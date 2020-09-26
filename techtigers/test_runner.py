@@ -21,34 +21,32 @@ class TestRunner:
             self.hub.light_matrix.show_image('DIAMOND')
             self.hub.status_light.on("azure")
             print("___________________")
-            print("Waiting to start test {}".format(test_case["test"]))
+            print("Waiting to start test {}".format(test_case.test))
 
             # Wait for the user to press and release the left button
             self.hub.left_button.wait_until_pressed()
             self.hub.left_button.wait_until_released()
             
             print("___________________")
-            print("Starting test {}".format(test_case["test"]))
+            print("Starting test {}".format(test_case.test))
             self.hub.light_matrix.show_image("XMAS")
-            print(test_case["expected_result"])
+            print(test_case.expected_result])
 
-            test_case["result"] = self.do_test(self.robot, test_case)
+            test_case.result = self.do_test(self.robot, test_case)
 
-            if test_case["result"] == True:
+            if test_case.result == True:
                 self.hub.light_matrix.show_image("YES")
             else:
                 self.hub.light_matrix.show_image("NO")
 
             print("__________________")
-            print("Test completed. Result: {}".format(test_case["result"]))
+            print("Test completed. Result: {}".format(test_case.result))
             self.robot.drift_check()
 
     def print_results(self):
         lines = []
-        for item in self.test_cases:
-            line = []
-            for key in item:
-                line.append(str(item[key]))
+        for line in self.test_cases:
+            lines.append()
             lines.append(','.join(line))
 
         raw_results ="\\n".join(lines)

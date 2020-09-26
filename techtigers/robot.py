@@ -30,7 +30,9 @@ class Robot:
         """ Hidden function that is used to move single motors
 
         :param speed: The speed of the motor
-        :type speed: Number :param duration: The Amount of time the robot runs for :type duration: Number """
+        :type speed: Number 
+        :param duration: The Amount of time the robot runs for 
+        :type duration: Number """
         motor.run_for_seconds(duration, speed)
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
         """This function implements the ability to go at a certain speed
