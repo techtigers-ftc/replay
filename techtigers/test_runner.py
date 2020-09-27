@@ -3,7 +3,11 @@ from spike.control import wait_for_seconds
 
 class TestRunner:
     def __init__(self, test_cases):
-        # TODO: Comment This!!!
+        """ A class that is used to test navigation functions
+
+        :param test_cases: An array that contains the info for tests
+        :type test_cases: Array
+        """
         self.robot = Robot()
         self.hub = self.robot.hub
         self.test_cases = test_cases
@@ -27,9 +31,9 @@ class TestRunner:
             
             print("Starting test {}".format(test_case.case_id))
             self.hub.light_matrix.show_image("CONFUSED")
-            print(test_case.expected_result])
+            print(test_case.description)
 
-            test_case.result = test_case.do_test(self.robot, test_case)
+            test_case.result = test_case.do_test()
 
             if test_case.result == True:
                 self.hub.light_matrix.show_image("YES")
