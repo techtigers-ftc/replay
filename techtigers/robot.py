@@ -34,6 +34,7 @@ class Robot:
         :param duration: The Amount of time the robot runs for 
         :type duration: Number """
         motor.run_for_seconds(duration, speed)
+
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
         """This function implements the ability to go at a certain speed
         and then stop on a certain color
@@ -289,3 +290,15 @@ class Robot:
         :type time: Number
         """
         self.hub.speaker.beep(note, time)
+
+    def wait_left_button(self):
+        """ Waits until left button is pressed and released
+        """
+        self.hub.left_button.wait_until_pressed()
+        self.hub.left_button.wait_until_released()
+
+    def wait_right_button(self):
+        """ Waits until right button is pressed and released
+        """
+        self.hub.right_button.wait_until_pressed()
+        self.hub.right_button.wait_until_released()
