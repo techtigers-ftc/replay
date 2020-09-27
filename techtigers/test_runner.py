@@ -13,7 +13,10 @@ class TestRunner:
         self.test_cases = test_cases
     
     def run_test(self):
-        # TODO: Comment This!!!
+       """ A function which runs all the defined test cases
+       """
+       
+       
         for test_case in self.test_cases:
             print("Running setup for test {}".format(test_case.case_id))
             self.hub.light_matrix.show_image('CHESSBOARD')
