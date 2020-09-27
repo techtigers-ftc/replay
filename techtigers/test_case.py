@@ -1,29 +1,31 @@
-from spike import MotorPair, ColorSensor, StatusLight, MotionSensor, Speaker, PrimeHub, Motor
-from spike.control import wait_for_seconds
-from .robot import Robot
-
-
-
 class TestCase:
-    def __init__(self, case_id, test, expected_result, actual_result, setup = None):
+    def __init__(self, case_id, description, do_test, setup = None):
         """
         :param case_id: The test number
         :type case_id: Number
-        :param test: Start of a test
-        :type test: Number or string
-        :param expected_result: The expected outcome 
-        :type expcted_result: String 
-        :param actual_result: The result of the test
-        :type actual_result: String
-        :param setup: Optional preliminary function which can be used to sateup the robot before the test has been run
+        :param description: Description of the test
+        :type description: String
+        :param do_test: Function that evaluates the test and return True or False
+        :type do_test: Function 
+        :param setup: Optional preliminary function which can be used to setup 
+                      the robot before the test has been run
         :type setup: Function
-
         """
      
         self.case_id = case_id
-        self.test = test
         self.description = description
+        self.do_test = do_test
         self.setup = setup
-        self.test = test
-           
-    
+        self.result = None
+
+    def get_csv(self):
+        """ Returns csv of test_case
+
+        :return str: A csv of the test_case
+        :type str: string
+        """
+        return ','.join([
+            test_case.case_id,
+            test_case.description,
+            test_case.result
+        ])
