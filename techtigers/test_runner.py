@@ -27,14 +27,12 @@ class TestRunner:
             self.hub.light_matrix.show_image('DIAMOND')
             self.hub.status_light.on("azure")
 
-            # Wait for the user to press and release the left button
-            self.robot.wait_left_button()
             
             print("Starting test {}".format(test_case.case_id))
             self.hub.light_matrix.show_image("CONFUSED")
             print(test_case.description)
 
-            test_case.result = test_case.do_test()
+            test_case.result = test_case.do_test(self.robot, test_case)
 
             if test_case.result == True:
                 self.hub.light_matrix.show_image("YES")
@@ -44,6 +42,9 @@ class TestRunner:
             print("Test completed. Result: {}".format(test_case.result))
             print("__________________")
             wait_for_seconds(1)
+
+            # Wait for the user to press and release the left button
+            self.robot.wait_left_button()
 
     def print_results(self):
         """ A function that takes all the results of the test results and converts 
