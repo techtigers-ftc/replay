@@ -11,7 +11,7 @@ class TestRunner:
         self.robot = Robot()
         self.hub = self.robot.hub
         self.test_cases = test_cases
-        self.timer = self.robot.timer
+     
 
     def run_test(self):
        """ A function which runs all the defined test cases
