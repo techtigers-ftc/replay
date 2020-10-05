@@ -5,3 +5,5 @@ from .line_sensor import LineSensor
 from .colors import Color
 from .test_runner import TestRunner
 from .test_case import TestCase
+from .color_matcher import ColorMatcher
+from .color_reflected_light_matcher import ReflectedLightMatcher
