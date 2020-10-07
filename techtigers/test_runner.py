@@ -51,11 +51,6 @@ class TestRunner:
         """ A function that takes all the results of the test results and converts 
         them into a python command line that will print csv style results
         """
-        lines = []
         for test_case in self.test_cases:
-            lines.append(test_case.get_csv())
-
-        raw_results ="\\n".join(lines)
-        # Prints a python command that will print csv
-        print("python -c 'print(\"{}\")'".format(raw_results))
+            print(test_case.get_csv())
 
