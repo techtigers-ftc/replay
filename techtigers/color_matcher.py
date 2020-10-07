@@ -1,5 +1,5 @@
-
 class ColorMatcher:
+
     def __init__(self, color_value):
         """ ColorMatcher takes the sensor value and converts it into a color
 
