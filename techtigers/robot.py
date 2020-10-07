@@ -22,7 +22,8 @@ class Robot:
         self.left_attachment = Motor('C')
         self.right_attachment = Motor('E')
         self.hub = PrimeHub()
-        self.gyro = self.hub.motion_sensor
+        self.gyro = self.hub.motion_sensors
+        self.color = Color()
 
         self._logger = Logger()
 
