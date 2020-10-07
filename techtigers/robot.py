@@ -50,12 +50,9 @@ class Robot:
         if sensor == LineSensor.RIGHT:
             color_sensor = self.right_color
 
-        wait_for_seconds(0.01)
         self.drive_motors.start(0,speed)
         wait = True
-        while wait:
-            sensor_value = color_sensor.get_reflected_light() 
-            wait = sensor_value < color[0] or sensor_value >= color[1]
+        while not color.is_match(color_sensor):
             pass
         self.drive_motors.stop()
 

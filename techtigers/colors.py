@@ -1,15 +1,20 @@
+from .color_matcher import ColorMatcher
+from .color_reflected_light_matcher import ReflectedLightMatcher
+
 class Color:
     """Enumeration of supported "stop on" colors
     """
 
     """White color
     """
-    WHITE = (90, 101)
+    # WHITE = (100, 101)
+    WHITE = ColorMatcher('white')
 
     """Black color
     """
-    BLACK = (0, 41)
+    BLACK = ReflectedLightMatcher(0, 35)
 
     """Green color
     """
-    GREEN = (80, 91)
+    GREEN = ReflectedLightMatcher(80, 91)
+
