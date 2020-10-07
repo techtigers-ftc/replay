@@ -6,8 +6,6 @@ from .line_sensor import LineSensor
 from .line_edge import LineEdge
 from .logger import Logger
 from .timer import Timer
-from .color_matcher import ColorMatcher
-from .reflected_light_matcher import ReflectedLightMatcher
 
 class Robot:
     """ Represents the robot for the the 2021 fll season
@@ -25,9 +23,6 @@ class Robot:
         self.right_attachment = Motor('E')
         self.hub = PrimeHub()
         self.gyro = self.hub.motion_sensor
-        self.color = Color()
-        self.color_matcher = ColorMatcher(color.value)
-        self.reflected_light_matcher = ReflectedLightMatcher(min.value, max.value)
         self._logger = Logger()
 
     def _run_motor(motor, speed, duration):
