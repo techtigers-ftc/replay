@@ -7,3 +7,4 @@ from .test_runner import TestRunner
 from .test_case import TestCase
 from .color_matcher import ColorMatcher
 from .reflected_light_matcher import ReflectedLightMatcher
+from .timer import Timer
