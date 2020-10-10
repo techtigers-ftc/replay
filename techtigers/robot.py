@@ -23,7 +23,6 @@ class Robot:
         self.right_attachment = Motor('E')
         self.hub = PrimeHub()
         self.gyro = self.hub.motion_sensor
-
         self._logger = Logger()
 
     def _run_motor(motor, speed, duration):
