@@ -1,6 +1,7 @@
 class ReflectedLightMatcher:
     def __init__(self, min_value, max_value):
-        """The ReflectedLightMatcher takes the value from the color_sensor and checks to see if it fits in the min/max values of different colors
+        """The ReflectedLightMatcher takes the value from the color_sensor and
+        checks to see if it fits in the min/max values of different colors
 
         :param min_value: The minimium reflected_sensor value of a given color
         :param max_value: The maximum reflected_senor value of a given color
