@@ -1,4 +1,10 @@
 #!/bin/bash
 
-ampy -p /dev/tty.usbmodem3664395831381 rmdir ./techtigers
-ampy -p /dev/tty.usbmodem3664395831381 put ./techtigers/
+PORT=$(ls /dev/tty* | grep -i lego)
+NO_DELETE=${1}
+if [ ! -z ${NO_DELETE} ]
+then
+    ampy -p ${PORT} rmdir ./techtigers
+fi
+ampy -p ${PORT} put ./techtigers
+ampy -p ${PORT} reset
