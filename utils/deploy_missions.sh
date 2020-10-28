@@ -11,7 +11,7 @@ fi
 
 echo "Going to use port: ${PORT}"
 
-export PATH=${PATH}:/Users/rishi/Library/Python/3.8/lib/python/site-packages/mpy_cross
+export PATH=${PATH}:~/Library/Python/3.8/lib/python/site-packages/mpy_cross
 
 COMPILED_FILE=missions.mpy
 SINGLE_SOURCE=missions.py
