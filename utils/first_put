@@ -1,5 +1,0 @@
-#!/bin/bash
-
-PORT=$(ls /dev/tty* | grep -i lego)
-ampy -p ${PORT} put ./techtigers
-ampy -p ${PORT} reset
