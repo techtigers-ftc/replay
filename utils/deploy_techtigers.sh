@@ -1,21 +1,29 @@
 #!/bin/bash
+SCRIPT_DIR=$(dirname ${BASH_SOURCE[0]})
+source ${SCRIPT_DIR}/settings.env
+source ${SCRIPT_DIR}/styles.env
 
 CONNECTION_TYPE=${1}
 
 if [ "${CONNECTION_TYPE}" == "ble" ]
 then
-    PORT=/dev/tty.LEGOHub40BD32460790-Ser
+    PORT=${BLE_PORT}
 else
-    PORT=/dev/tty.usbmodem3664395831381
+    PORT=${WIRED_PORT}
 fi
 
-echo "Going to use port: ${PORT}"
+show_banner
 
-export PATH=${PATH}:~/Library/Python/3.8/lib/python/site-packages/mpy_cross
+print "Building ${COL_ORANGE}techtigers${COL_NORMAL} library"
 
-COMPILED_FILE=techtigers.mpy
-SINGLE_SOURCE=techtigers.py
-SOURCE_DIR=../techtigers
+print "Going to use port: ${COL_CYAN}${PORT}"
+
+export PATH=${PATH}:~/Library/Python/${PYTHON_VERSION}/lib/python/site-packages/mpy_cross
+
+SOURCE_DIR=./techtigers
+BUILD_DIR=./build
+COMPILED_FILE=${BUILD_DIR}/techtigers.mpy
+SINGLE_SOURCE=${BUILD_DIR}/techtigers.py
 FILES=(
     timer.py
     color_matcher.py
@@ -30,25 +38,27 @@ FILES=(
     robot.py
 )
 
-echo "Creating single source file: ${SINGLE_SOURCE}"
+print "Creating Build directory: ${COL_CYAN}${BUILD_DIR}"
+mkdir -p ${BUILD_DIR}
+
+print "Creating single source file: ${COL_CYAN}${SINGLE_SOURCE}"
 grep -i --no-filename import ${SOURCE_DIR}/*.py | grep -vE '\s\.' | uniq > ${SINGLE_SOURCE}
 
-echo "Appending source code to single file: ${SINGLE_SOURCE}"
+print "Appending source code to single file: ${COL_CYAN}${SINGLE_SOURCE}"
 for file in ${FILES[*]}
 do
     cat ${SOURCE_DIR}/${file} | grep -vE '^.*import.*' >> ${SINGLE_SOURCE}
 done
 
-echo "Compiling single file: ${SINGLE_SOURCE} --> Compiled File: ${COMPILED_FILE}"
-mpy-cross techtigers.py
+print "Compiling single file: ${COL_CYAN}${SINGLE_SOURCE} --> ${COL_LIGHT_GREEN}${COMPILED_FILE}"
+mpy-cross ${SINGLE_SOURCE} || exit 
 
-echo "Ampy put the Compiled File: ${COMPILED_FILE}"
+print "Ampy put the Compiled File: ${COL_LIGHT_GREEN}${COMPILED_FILE}"
 ampy -p ${PORT} put ${COMPILED_FILE}
 ampy -p ${PORT} reset
 # ampy -p ls /dev/tty* | grep -i usbmodem reset
 
-echo "Removing Files"
-rm -f ${SINGLE_SOURCE}
-rm -f ${COMPILED_FILE}
+print "Removing Build directory: ${COL_CYAN}${BUILD_DIR}${COLOR_NORMAL}"
+rm -rf ${BUILD_DIR}
 
-echo "Done :)"
+print "Done :)"
