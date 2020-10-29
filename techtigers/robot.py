@@ -267,23 +267,23 @@ class Robot:
         """
         Robot._run_motor_duration(self.right_motor, speed, duration)
 
-    def run_left_attachment(self, speed, duration):
-        """Runs the left attachment motor for desired speed and time
+    def run_left_attachment(self, speed, rotations):
+        """Runs the left attachment motor for desired speed and rotations
 
         :param speed: The speed of the motor
         :type speed: Number
-        :param duration: The Amount of time the robot runs for
-        :type duration: Number
+        :param rotations: The number of rotations to run the motor 
+        :type rotations: Number
         """
         Robot._run_motor_rotations(self.left_attachment, speed, rotations)
 
-    def run_right_attachment(self, speed, duration):
-        """Runs the right attachment motor for desired speed and time
+    def run_right_attachment(self, speed, rotations):
+        """Runs the right attachment motor for desired speed and rotations
 
         :param speed: The speed of the motor
         :type speed: Number
-        :param duration: The Amount of time the robot runs for
-        :type duration: Number
+        :param rotations: The number of rotations to run the motor 
+        :type rotations: Number
         """
         Robot._run_motor_rotations(self.right_attachment, speed, rotations)
 
