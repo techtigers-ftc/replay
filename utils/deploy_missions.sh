@@ -1,32 +1,48 @@
 #!/bin/bash
+SCRIPT_DIR=$(dirname ${BASH_SOURCE[0]})
+source ${SCRIPT_DIR}/settings.env
+source ${SCRIPT_DIR}/styles.env
 
 CONNECTION_TYPE=${1}
 
 if [ "${CONNECTION_TYPE}" == "ble" ]
 then
-    PORT=/dev/tty.LEGOHub40BD32460790-Ser
+    PORT=${BLE_PORT}
 else
-    PORT=/dev/tty.usbmodem3664395831381
+    PORT=${WIRED_PORT}
 fi
 
-echo "Going to use port: ${PORT}"
+show_banner
 
-export PATH=${PATH}:~/Library/Python/3.8/lib/python/site-packages/mpy_cross
+print "Putting ${COL_ORANGE}Mission${COL_NORMAL} code"
 
-COMPILED_FILE=missions.mpy
-SINGLE_SOURCE=missions.py
-SOURCE_DIR=../techtigers
+print "Going to use port: ${COL_CYAN}${PORT}"
 
-echo "Compiling single file: ${SINGLE_SOURCE} --> Compiled File: ${COMPILED_FILE}"
-mpy-cross ${SINGLE_SOURCE}
+export PATH=${PATH}:~/Library/Python/${PYTHON_VERSION}/lib/python/site-packages/mpy_cross
 
-echo "Ampy put the Compiled File: ${COMPILED_FILE}"
+BUILD_DIR=./build
+MISSIONS_FILE=./utils/missions.py
+MISSIONS_SOURCE=missions_source.py
+COMPILED_FILE=${BUILD_DIR}/missions_source.mpy
+SINGLE_SOURCE=${BUILD_DIR}/${MISSIONS_SOURCE}
+
+print "Creating Build directory: ${COL_CYAN}${BUILD_DIR}"
+mkdir -p ${BUILD_DIR}
+
+print "Copying and moving missions file to single source file: ${COL_PURPLE}${MISSIONS_FILE}${COL_NORMAL} --> ${COL_CYAN}${SINGLE_SOURCE}"
+cp ${MISSIONS_FILE} ${MISSIONS_SOURCE}
+mv ${MISSIONS_SOURCE} ${BUILD_DIR}
+
+print "Compiling single file: ${COL_CYAN}${SINGLE_SOURCE} --> ${COL_LIGHT_GREEN}${COMPILED_FILE}"
+echo ${SINGLE_SOURCE}
+mpy-cross ${SINGLE_SOURCE} || exit 
+
+print "Ampy put the Compiled File: ${COL_LIGHT_GREEN}${COMPILED_FILE}"
 ampy -p ${PORT} put ${COMPILED_FILE}
 ampy -p ${PORT} reset
 # ampy -p ls /dev/tty* | grep -i usbmodem reset
 
-echo "Removing Files"
-rm -f ${SINGLE_SOURCE}
-rm -f ${COMPILED_FILE}
+print "Removing Build directory: ${COL_CYAN}${BUILD_DIR}${COLOR_NORMAL}"
+rm -rf ${BUILD_DIR}
 
-echo "Done :)"
+print "Done :)"
