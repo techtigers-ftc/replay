@@ -21,9 +21,9 @@ print "Going to use port: ${COL_CYAN}${PORT}"
 export PATH=${PATH}:~/Library/Python/${PYTHON_VERSION}/lib/python/site-packages/mpy_cross
 
 BUILD_DIR=./build
-MISSIONS_FILE=./utils/missions.py
-MISSIONS_SOURCE=missions_source.py
-COMPILED_FILE=${BUILD_DIR}/missions_source.mpy
+MISSIONS_FILE=./missions/missions.py
+MISSIONS_SOURCE=missions.py
+COMPILED_FILE=${BUILD_DIR}/missions.mpy
 SINGLE_SOURCE=${BUILD_DIR}/${MISSIONS_SOURCE}
 
 print "Creating Build directory: ${COL_CYAN}${BUILD_DIR}"
