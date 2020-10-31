@@ -3,7 +3,43 @@ SCRIPT_DIR=$(dirname ${BASH_SOURCE[0]})
 source ${SCRIPT_DIR}/settings.env
 source ${SCRIPT_DIR}/styles.env
 
-CONNECTION_TYPE=${1}
+TARGET=${1}
+CONNECTION_TYPE=${2}
+BUILD_DIR=./build
+
+if [ "${TARGET}" == "core" ]
+then
+    TARGET_NAME='techtigers library'
+    SOURCE_DIR=${SCRIPT_DIR}/../techtigers
+    COMPILED_FILE=${BUILD_DIR}/techtigers.mpy
+    SINGLE_SOURCE=${BUILD_DIR}/techtigers.py
+    FILES=(
+        timer.py
+        color_matcher.py
+        reflected_light_matcher.py
+        line_edge.py
+        line_sensor.py
+        logger.py
+        test_case.py
+        test_runner.py
+        colors.py
+        pid.py
+        robot.py
+    )
+elif [ "${TARGET}" == "mission" ]
+then
+    TARGET_NAME='missions'
+    SOURCE_DIR=${SCRIPT_DIR}/../missions
+    COMPILED_FILE=${BUILD_DIR}/missions.mpy
+    SINGLE_SOURCE=${BUILD_DIR}/missions.py
+    FILES=(
+        missions.py
+    )
+else
+    print "${COL_RED}Error! Invalid target ${COL_YELLOW}[${TARGET}]"
+    print "Must be ${COL_YELLOW}core${COL_NORMAL} or ${COL_YELLOW}mission."
+    exit 1
+fi
 
 if [ "${CONNECTION_TYPE}" == "wire" ]
 then
@@ -14,29 +50,11 @@ fi
 
 show_banner
 
-print "Building ${COL_ORANGE}techtigers${COL_NORMAL} library"
+print "Building ${COL_ORANGE}${TARGET_NAME}"
 
 print "Going to use port: ${COL_CYAN}${PORT}"
 
 export PATH=${PATH}:~/Library/Python/${PYTHON_VERSION}/lib/python/site-packages/mpy_cross
-
-SOURCE_DIR=./techtigers
-BUILD_DIR=./build
-COMPILED_FILE=${BUILD_DIR}/techtigers.mpy
-SINGLE_SOURCE=${BUILD_DIR}/techtigers.py
-FILES=(
-    timer.py
-    color_matcher.py
-    reflected_light_matcher.py
-    line_edge.py
-    line_sensor.py
-    logger.py
-    test_case.py
-    test_runner.py
-    colors.py
-    pid.py
-    robot.py
-)
 
 print "Creating Build directory: ${COL_CYAN}${BUILD_DIR}"
 mkdir -p ${BUILD_DIR}
@@ -51,7 +69,7 @@ do
 done
 
 print "Compiling single file: ${COL_CYAN}${SINGLE_SOURCE} --> ${COL_LIGHT_GREEN}${COMPILED_FILE}"
-mpy-cross ${SINGLE_SOURCE} || exit 
+mpy-cross -o ${COMPILED_FILE} ${SINGLE_SOURCE} || exit 
 
 print "Ampy put the Compiled File: ${COL_LIGHT_GREEN}${COMPILED_FILE}"
 ampy -p ${PORT} put ${COMPILED_FILE}
