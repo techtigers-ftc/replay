@@ -5,11 +5,11 @@ source ${SCRIPT_DIR}/styles.env
 
 CONNECTION_TYPE=${1}
 
-if [ "${CONNECTION_TYPE}" == "ble" ]
+if [ "${CONNECTION_TYPE}" == "wire" ]
 then
-    PORT=${BLE_PORT}
-else
     PORT=${WIRED_PORT}
+else
+    PORT=${BLE_PORT}
 fi
 
 show_banner
@@ -40,7 +40,6 @@ mpy-cross ${SINGLE_SOURCE} || exit
 print "Ampy put the Compiled File: ${COL_LIGHT_GREEN}${COMPILED_FILE}"
 ampy -p ${PORT} put ${COMPILED_FILE}
 ampy -p ${PORT} reset
-# ampy -p ls /dev/tty* | grep -i usbmodem reset
 
 print "Removing Build directory: ${COL_CYAN}${BUILD_DIR}${COLOR_NORMAL}"
 rm -rf ${BUILD_DIR}
