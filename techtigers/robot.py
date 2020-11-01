@@ -25,7 +25,7 @@ class Robot:
         self.gyro = self.hub.motion_sensor
         self._logger = Logger()
 
-    def _run_motor(motor, speed, duration):
+    def _run_motor_duration(motor, speed, duration):
         """ Hidden function that is used to move single motors
 
         :param speed: The speed of the motor
@@ -33,6 +33,16 @@ class Robot:
         :param duration: The Amount of time the robot runs for 
         :type duration: Number """
         motor.run_for_seconds(duration, speed)
+
+    def _run_motor_rotations(motor, speed, rotations):
+        """ Hidden function that is used to move single motors
+
+        :param speed: The speed of the motor
+        :type speed: Number 
+        :param duration: The Amount of time the robot runs for 
+        :type duration: Number """
+        motor.run_for_rotations(rotations, speed)
+
 
     def stop_on_color(self, speed, sensor, color=Color.WHITE):
         """This function implements the ability to go at a certain speed
@@ -245,7 +255,7 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-        Robot._run_motor(self.left_motor, speed, duration)
+        Robot._run_motor_duration(self.left_motor, speed, duration)
 
     def run_right_drive(self, speed, duration):
         """Runs the right drive motor for desired speed and time
@@ -255,27 +265,27 @@ class Robot:
         :param duration: The Amount of time the robot runs for
         :type duration: Number
         """
-        Robot._run_motor(self.right_motor, speed, duration)
+        Robot._run_motor_duration(self.right_motor, speed, duration)
 
-    def run_left_attachment(self, speed, duration):
-        """Runs the left attachment motor for desired speed and time
-
-        :param speed: The speed of the motor
-        :type speed: Number
-        :param duration: The Amount of time the robot runs for
-        :type duration: Number
-        """
-        Robot._run_motor(self.left_attachment, speed, duration)
-
-    def run_right_attachment(self, speed, duration):
-        """Runs the right attachment motor for desired speed and time
+    def run_left_attachment(self, speed, rotations):
+        """Runs the left attachment motor for desired speed and rotations
 
         :param speed: The speed of the motor
         :type speed: Number
-        :param duration: The Amount of time the robot runs for
-        :type duration: Number
+        :param rotations: The number of rotations to run the motor 
+        :type rotations: Number
         """
-        Robot._run_motor(self.right_attachment, speed, duration)
+        Robot._run_motor_rotations(self.left_attachment, speed, rotations)
+
+    def run_right_attachment(self, speed, rotations):
+        """Runs the right attachment motor for desired speed and rotations
+
+        :param speed: The speed of the motor
+        :type speed: Number
+        :param rotations: The number of rotations to run the motor 
+        :type rotations: Number
+        """
+        Robot._run_motor_rotations(self.right_attachment, speed, rotations)
 
     def beep(self, note, time):
         """Runs a beep on the spike prime for a certain pitch and time
