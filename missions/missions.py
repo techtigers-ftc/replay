@@ -9,4 +9,5 @@ line_follow_pid = Pid(5,0,0)
 robot.reset_gyro()
 
 def ms1():
-    robot.run_left_attachment(20,5)
+    robot.run_left_attachment(80,5)
+    robot.run_right_attachment(80,5)

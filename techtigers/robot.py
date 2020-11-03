@@ -308,3 +308,68 @@ class Robot:
         """
         self.hub.right_button.wait_until_pressed()
         self.hub.right_button.wait_until_released()
+
+    def start_drive(speed):
+        """ Starts the drive motors
+
+        :param speed: The speed of the motors
+        :type speed: Number
+        """
+        self.drive_motors.start(0, speed)
+
+    def stop_drive():
+        """ Starts the drive motors
+        """
+        self.drive_motors.stop()
+
+    def start_left_drive(speed):
+        """ Starts the left drive motor
+
+        :param speed: The speed of the motors
+        :type speed: Number
+        """
+        self.left_motor.start(0, speed)
+
+    def stop_left_drive():
+        """ Starts the left drive motor
+        """
+        self.left_motor.stop()
+
+    def start_right_drive(speed):
+        """ Starts the right drive motor
+
+        :param speed: The speed of the motors
+        :type speed: Number
+        """
+        self.right_motor.start(0, speed)
+
+    def stop_right_drive():
+        """ Starts the right drive motor
+        """
+        self.right_motor.stop()
+
+    def start_left_attachment(speed):
+        """ Starts the left attachment motor
+
+        :param speed: The speed of the motors
+        :type speed: Number
+        """
+        self.left_attachment.start(0, speed)
+
+    def stop_left_attachment():
+        """ Starts the left attachment motor
+        """
+        self.left_attachment.stop()
+
+    def start_right_attachment(speed):
+        """ Starts the right attachment motor
+
+        :param speed: The speed of the motors
+        :type speed: Number
+        """
+        self.right_attachment.start(0, speed)
+
+    def stop_right_attachment():
+        """ Starts the right attachment motor
+        """
+        self.right_attachment.stop()
