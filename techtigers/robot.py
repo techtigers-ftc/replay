@@ -225,7 +225,7 @@ class Robot:
 
         :param pid: Uses Pid instance with parameters set beforehand
         :type pid: Instance of a Class
-        :param speed: The speed of the motor
+        :param speed: The speed of the robot
         :type speed: Number
         :param target_angle: The orientation of the robot
         :type target_angle: Number
@@ -373,3 +373,37 @@ class Robot:
         """ Starts the right attachment motor
         """
         self.right_attachment.stop()
+
+    def accelerated_drive(self, pid, min_speed, max_speed, target_angle, duration):
+        """
+        Accelerated drive allows the robot to gyro drive while accelerating or decelerating 
+        the speed.
+
+        :param pid: Uses Pid instance with parameters set beforehand
+        :type pid: Instance of a Class
+        :param min_speed: The minumum speed of the robot
+        :type min_speed: Number
+        :param max_speed: The maximum speed of the robot
+        :type max_speed: Number
+        :param target_angle: The orientation of the robot
+        :type target_angle: Number
+        :param duration: The Amount of time the robot runs for
+        :type duration: Number
+        """
+        pid.reset()
+        clock = Timer()
+
+        duration = duration * 1000000
+        increment = (max_speed - min_speed)/duration
+        while clock.duration() < duration:
+            actual_angle = self.gyro.get_yaw_angle()
+            error = target_angle - actual_angle
+            error = error - 360*int(error/180)
+
+            steering = pid.compute_steering(error)
+
+            self.drive_motors.start(-1*steering, min_speed+(int(increment*clock.duration())))
+
+        self.drive_motors.stop()
+
+        
