@@ -328,7 +328,7 @@ class Robot:
         :param speed: The speed of the motors
         :type speed: Number
         """
-        self.left_motor.start(0, speed)
+        self.left_motor.start(speed)
 
     def stop_left_drive():
         """ Starts the left drive motor
@@ -341,7 +341,7 @@ class Robot:
         :param speed: The speed of the motors
         :type speed: Number
         """
-        self.right_motor.start(0, speed)
+        self.right_motor.start(speed)
 
     def stop_right_drive():
         """ Starts the right drive motor
@@ -354,7 +354,7 @@ class Robot:
         :param speed: The speed of the motors
         :type speed: Number
         """
-        self.left_attachment.start(0, speed)
+        self.left_attachment.start(speed)
 
     def stop_left_attachment():
         """ Starts the left attachment motor
@@ -367,7 +367,7 @@ class Robot:
         :param speed: The speed of the motors
         :type speed: Number
         """
-        self.right_attachment.start(0, speed)
+        self.right_attachment.start(speed)
 
     def stop_right_attachment():
         """ Starts the right attachment motor
