@@ -309,7 +309,7 @@ class Robot:
         self.hub.right_button.wait_until_pressed()
         self.hub.right_button.wait_until_released()
 
-    def start_drive(speed):
+    def start_drive(self, speed):
         """ Starts the drive motors
 
         :param speed: The speed of the motors
@@ -317,12 +317,12 @@ class Robot:
         """
         self.drive_motors.start(0, speed)
 
-    def stop_drive():
+    def stop_drive(self):
         """ Starts the drive motors
         """
         self.drive_motors.stop()
 
-    def start_left_drive(speed):
+    def start_left_drive(self, speed):
         """ Starts the left drive motor
 
         :param speed: The speed of the motors
@@ -330,12 +330,12 @@ class Robot:
         """
         self.left_motor.start(speed)
 
-    def stop_left_drive():
+    def stop_left_drive(self):
         """ Starts the left drive motor
         """
         self.left_motor.stop()
 
-    def start_right_drive(speed):
+    def start_right_drive(self, speed):
         """ Starts the right drive motor
 
         :param speed: The speed of the motors
@@ -343,12 +343,12 @@ class Robot:
         """
         self.right_motor.start(speed)
 
-    def stop_right_drive():
+    def stop_right_drive(self):
         """ Starts the right drive motor
         """
         self.right_motor.stop()
 
-    def start_left_attachment(speed):
+    def start_left_attachment(self, speed):
         """ Starts the left attachment motor
 
         :param speed: The speed of the motors
@@ -356,12 +356,12 @@ class Robot:
         """
         self.left_attachment.start(speed)
 
-    def stop_left_attachment():
+    def stop_left_attachment(self):
         """ Starts the left attachment motor
         """
         self.left_attachment.stop()
 
-    def start_right_attachment(speed):
+    def start_right_attachment(self, speed):
         """ Starts the right attachment motor
 
         :param speed: The speed of the motors
@@ -369,7 +369,7 @@ class Robot:
         """
         self.right_attachment.start(speed)
 
-    def stop_right_attachment():
+    def stop_right_attachment(self):
         """ Starts the right attachment motor
         """
         self.right_attachment.stop()
@@ -405,5 +405,3 @@ class Robot:
             self.drive_motors.start(-1*steering, min_speed+(int(increment*clock.duration())))
 
         self.drive_motors.stop()
-
-        
