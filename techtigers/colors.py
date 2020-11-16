@@ -12,7 +12,7 @@ class Color:
 
     """Black color
     """
-    BLACK = ReflectedLightMatcher(0, 35)
+    BLACK = ReflectedLightMatcher(0, 40)
 
     """Green color
     """
