@@ -123,7 +123,7 @@ class Robot:
             if steering != 0:
                 abs_steering = abs(steering)
                 sign = steering/abs_steering
-                speed = max(10, abs_steering) * sign
+                speed = min(20, abs_steering) * sign
 
                 self.left_motor.start(int(speed))
                 self.right_motor.start(int(speed))
