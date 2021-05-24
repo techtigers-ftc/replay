@@ -172,9 +172,9 @@ class Robot:
         while clock.duration() < duration:
             # Selecting which sensor to use using an Enum
             if which_sensor == LineSensor.RIGHT:
-                error = 66 - self.right_color.get_reflected_light()
+                error = (33 - self.right_color.get_reflected_light())/66
             if which_sensor == LineSensor.LEFT:
-                error = 66 - self.left_color.get_reflected_light()
+                error = (33 - self.left_color.get_reflected_light())/66
 
             # Selecting which edge of the line to use
             if which_edge == LineEdge.LEFT:

@@ -56,27 +56,30 @@ class Pid:
         :return: Returns correction value
         :rtype: Number
         """
-        elapsed_time = self.clock.duration() / 1000
-        error_change = 0
+        # elapsed_time = self.clock.duration() / 1000
+        # error_change = 0
+        # if elapsed_time > 0:
 
-        if elapsed_time > 0:
-            error_change = (error - self.last_error)/elapsed_time
-            self.total_error = self.last_error * (elapsed_time / 1000000) + self.total_error
+            # error_change = (error - self.last_error)/elapsed_time
+            # self.total_error = self.last_error * (elapsed_time / 1000000) + self.total_error
             # --- TEMP CODE START ---
-            if error_change < self._error_change_min:
-                self._error_change_min = error_change
-            if error_change > self._error_change_max:
-                self._error_change_max = error_change
-            self._error_change_total += error_change
+            # if error_change < self._error_change_min:
+            #     self._error_change_min = error_change
+            # if error_change > self._error_change_max:
+            #     self._error_change_max = error_change
+            # self._error_change_total += error_change
 
-            if self.total_error < self._total_error_min:
-                self._total_error_min = self.total_error
-            if self.total_error > self._total_error_max:
-                self._total_error_max = self.total_error
-            self._total_error_total += self.total_error
+            # if self.total_error < self._total_error_min:
+            #     self._total_error_min = self.total_error
+            # if self.total_error > self._total_error_max:
+            #     self._total_error_max = self.total_error
+            # self._total_error_total += self.total_error
 
-            self._iterations += 1
+            # self._iterations += 1
             # --- TEMP CODE END ---
+
+        error_change = (error - self.last_error)
+        self.total_error += error
 
         self.last_error = error
 
@@ -84,4 +87,4 @@ class Pid:
         steering += error_change * self.kd
         steering += self.total_error * self.ki
 
-        return int(-steering)
+        return int(steering)
